@@ -4,3 +4,7 @@ form,
 input {
   margin: 10px;
 }
+
+#location-form {
+  border: solid pink 5px;
+}
