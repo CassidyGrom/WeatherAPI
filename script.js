@@ -52,21 +52,25 @@ $(document).on("click", ".city-btn", function(event) {
 function buildQueryURL(city) {
   console.log(city);
   // queryURL is the url we'll use to query the API
-  var queryURL = "api.openweathermap.org";
+  var queryURL = "api.openweathermap.org/data/2.5/weather?q=";
 
   // Begin building an object to contain our API call's query parameters
   // Set the API key
-  var queryParams = { "api-key": "327fd5e4c25354dfdd72fbe1fb823d1d" };
+  var appID = "&APPID=327fd5e4c25354dfdd72fbe1fb823d1d";
 
   // Grab text the user typed into the search input, add to the queryParams object
-  queryParams.q = city;
-  console.log(queryParams);
+  // queryParams.q = city;
+  // console.log(queryParams);
+
+  return queryURL + city + appID;
 
   // Logging the URL so we have access to it for troubleshooting
-  console.log("---------------\nURL: " + queryURL + "\n---------------");
-  console.log(queryURL + $.param(queryParams));
-  return queryURL + "?" + $.param(queryParams);
+  // console.log("---------------\nURL: " + queryURL + "\n---------------");
+  // console.log(queryURL + $.param(queryParams));
+  // return queryURL + "?" + $.param(queryParams);
 }
+
+console.log(buildQueryURL(Response));
 
 // FOR LATERS
 // Adding a click event listener to all elements with a class of "city-btn" this is what it said in movies: $(document).on("click", ".city-btn", displayDataInfo);
@@ -81,16 +85,17 @@ renderButtons();
 //   var movie = $(this).attr("data-name");
 //   var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=trilogy";
 
-//   // Creating an AJAX call for the specific movie button being clicked
-//   $.ajax({
-//     url: queryURL,
-//     method: "GET"
-//   }).then(function(response) {
-//     // Creating a div to hold the movie
-//     var movieDiv = $("<div class='movie'>");
+// Creating an AJAX call for the specific movie button being clicked
+// $.ajax({
+//   url: queryURL,
+//   method: "GET"}).then(function(response) {
+// // Creating a div to hold the apiSendback
+// var sendBackdiv = $("<div class='sendBack'>");
 
-//     // Storing the rating data
-//     var rating = response.Rated;
+// // Storing the rating data
+// var temp = response.main.temp;
+
+// console.log(temp)
 
 //     // Creating an element to have the rating displayed
 //     var pOne = $("<p>").text("Rating: " + rating);
