@@ -5,6 +5,7 @@ var apiKey = "327fd5e4c25354dfdd72fbe1fb823d1d";
 // displayWeatherInfo function re-renders the HTML to display the appropriate content
 function displayWeatherInfo(event) {
   event.preventDefault();
+
   var area = $("#location-input").val();
   console.log(area);
   var queryURL =
@@ -19,6 +20,9 @@ function displayWeatherInfo(event) {
     method: "GET"
   }).then(function(response) {
     console.log(response);
+    $("#location-input").val("");
+    $("#weather-view, .five-day").empty();
+    // $("#five-day").empty();
     // find temp and store it in a variable
     var temp = response.main.temp;
     var name = response.name;
@@ -86,6 +90,9 @@ function getFiveDay(area) {
     for (var i = 0; i < fiveDayArr.length; i++) {
       var temp = fiveDayArr[i].main.temp;
       var date = fiveDayArr[i].dt_txt;
+      date = date.slice(0, 10);
+      console.log(date);
+      var MomentDate = moment(date).format("dddd MMMM Do YYYY");
       var hum = fiveDayArr[i].main.humidity;
 
       var columnDiv = $("<div>");
@@ -100,7 +107,9 @@ function getFiveDay(area) {
 
       cardBodyDiv
         .addClass("card-body five-day-data")
-        .append(`<p>${temp}</p>`)
+        .append(`<p> date: ${MomentDate}</p>`)
+        .append(`<p> temperature: ${temp}</p>`)
+        .append(`<p>humidity: ${hum}</p>`)
         .appendTo(cardDiv);
     }
   });
