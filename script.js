@@ -42,8 +42,9 @@ function displayWeatherInfo(event) {
     var lon = response.coord.lon;
     // pass both variable into the getUVIndex function
     getUVIndex(lat, lon);
-    // call 5 day forecast api endpoint with a function
+    getFiveDay(area);
   });
+  // call 5 day forecast api endpoint with a function
 }
 
 function getUVIndex(latitude, longitude) {
@@ -58,6 +59,50 @@ function getUVIndex(latitude, longitude) {
     var uv = response.value;
     console.log(uv);
     $("#weather-view").append(`<p> UV index: ${uv}</p>`);
+  });
+}
+
+function getFiveDay(area) {
+  console.log(area);
+  var url =
+    "https://api.openweathermap.org/data/2.5/forecast?q=" +
+    area +
+    "&units=imperial&APPID=" +
+    apiKey;
+  // call api to get uv index with the url above
+  $.ajax({
+    url: url,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+    var fiveDayArr = response.list.filter(function(weatherObj) {
+      if (weatherObj.dt_txt.includes("06:00:00")) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log(fiveDayArr);
+    for (var i = 0; i < fiveDayArr.length; i++) {
+      var temp = fiveDayArr[i].main.temp;
+      var date = fiveDayArr[i].dt_txt;
+      var hum = fiveDayArr[i].main.humidity;
+
+      var columnDiv = $("<div>");
+
+      columnDiv.addClass("col-12 col-md-2").appendTo(".five-day");
+
+      var cardDiv = $("<div>");
+
+      cardDiv.addClass("card five-card").appendTo(columnDiv);
+
+      var cardBodyDiv = $("<div>");
+
+      cardBodyDiv
+        .addClass("card-body five-day-data")
+        .append(`<p>${temp}</p>`)
+        .appendTo(cardDiv);
+    }
   });
 }
 
